@@ -1,64 +1,87 @@
-var row1 = $("#row1").children();
-var hour = parseInt(row1[0].textContent.trim());
-console.log(hour);
+// var currentHour = 0;
 
-var row2 = $("#row1").children();
-var hour = parseInt(row2[0].textContent.trim());
-console.log(hour);
+// let hourArr = ["9", "10", "11", "12", "13", "14", "15", "16", "17"];
+
+// var row1 = $("#9").children();
+// var hour = parseInt(`${hourArr[currentHour]}`);
+// console.log(hour);
+
+// var row2 = $("#10").children();
+// var hour = parseInt(`${hourArr[1]}`);
+// console.log(hour);
 
 
+// var row3 = $("#11").children();
+// var hour = parseInt(row3[0].textContent.trim());
+// console.log(hour);
 
+//current date 
+var date = $("#currentDay").text(`${moment().format("dddd, MMMM Do")}`);
+
+//current time
 var now = moment().hours();
 console.log(now);
 
+//test color
 if (hour < now) {
+    $(".description").addClass("past");
+    $(".description").removeClass("description");
     console.log("if statment working");
 }
 
 
+for(let i = 0; i < 24; i++) {
+  const $div = $("div#" + i);
+  const currentHour = moment().format("H");
 
+  if(i < currentHour) {
 
-
-
-
-
-var hour9 = moment(date, "L").set("hour", 9);
-console.log(hour9);
-
-var hour10 = moment(date, "L").set("hour", 10);
-console.log(hour10);
-
- var date = $("#currentDay").text(`${moment().format("dddd, MMMM Do")}`);
- console.log(date);
-
-
+    $($div).siblings(".task-description")
+    .addClass("past")
+    .removeClass("description");
+  }
+}
 
 
 //Use to audit current time against time in far left block
-var auditTask = function(taskEl) {
-    // get date from task element
-    var date = $(taskEl).find("span").text().trim();
-    // ensure it worked
-    console.log(date); 
+var auditTask = function() {
+
+  var textBox = $("row").children([1]);
+  console.log(textBox);
   
-    // convert to moment object at 5:00pm
-    var time = moment(date, "L").set("hour", 17);
-  
-    // remove any old classes from element
-    $(taskEl).removeClass("description");
-  
-    // apply new class if task is near/over due date
-    if (moment().isAfter(time)) {
-      $(taskEl).addClass("list-group-item-danger");
-    }
-    if (moment().isAfter(time)) {
-        $(taskEl).addClass("list-group-item-danger");
-    }
-    else if (Math.abs(moment().diff(time, "days")) <= 2) {
-      $(taskEl).addClass("list-group-item-warning");
-    }
-    console.log(taskEl)
+    
+  // remove any old classes from element
+  $("row2").children[1]().removeClass("description");
+
+  // apply new class if task is near/over due date
+  if (hour === now) {
+    $(taskEl).addClass("present");
+  }
+  if (moment().isAfter(hour)) {
+    $(taskEl).addClass("past");
+  }
+  else {
+    $(taskEl).addClass("future");
+  }
+
+  currentHour++;
+
   };
+  
+  
+
+
+// if the current time is during working hours
+if (now < 18 && now > 8) {
+  auditTask();
+}
+
+
+
+//figure out how to make "hour" loop through i
+
+
+
 
 
 
@@ -68,6 +91,8 @@ var auditTask = function(taskEl) {
       auditTask(el);
     });
   }, 3600000);
+
+
 
 // value of text is changed
 $(".description").on("change", "input[type='text']", function() {
@@ -86,16 +111,8 @@ $(".description").on("change", "input[type='text']", function() {
     tasks[index].description = description;
     saveTasks();
   
-    // recreate span element with bootstrap classes
-    var taskSpan = $("<span>")
-      .addClass("badge badge-primary badge-pill")
-      .text(description);
-  
-    // replace input with span element
-    $(this).replaceWith(taskSpan);
-  
-     // Pass task's <li> element into auditTask() to check new due date
-     auditTask($(taskSpan).closest(".description"));
+    // Pass task's <li> element into auditTask() to check new due date
+     auditTask($(this).closest(".description"));
   });
 
   
