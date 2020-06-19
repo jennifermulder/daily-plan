@@ -18,62 +18,43 @@
 //current date 
 var date = $("#currentDay").text(`${moment().format("dddd, MMMM Do")}`);
 
-//current time
-var now = moment().hours();
-console.log(now);
 
-//test color
-// if (hour < now) {
-//     $(".description").addClass("past");
-//     $(".description").removeClass("description");
-//     console.log("if statment working");
-// }
-
-
-for(let i = 0; i < 24; i++) {
-  const $div = $("div#" + i);
-  const currentHour = moment().format("H");
-  console.log(currentHour);
-  
-  if (i > currentHour) {
-    $($div).siblings("textarea")
-    .addClass("future")
-    .removeClass("description");
-  }
-  if (i < currentHour) {
-    $($div).siblings("textarea")
-    .addClass("past")
-    .removeClass("description");
-  }
-  if (i == currentHour) {
-    console.log(i);
-    $($div).siblings("textarea")
-    .addClass("present")
-    .removeClass("description");
-  }
-  else {
-  }
-};
-
-
-//Use to audit current time against time in far left block
+//Use to audit current time against time in far left block & change color
 var auditTask = function() {
-
-  
+  for(let i = 0; i < 24; i++) {
+    const $div = $("div#" + i);
+    const currentHour = moment().format("H");
+    console.log(currentHour);
+    
+    if (i > currentHour) {
+      $($div).siblings("textarea")
+      .addClass("future")
+      .removeClass("description");
+    }
+    if (i < currentHour) {
+      $($div).siblings("textarea")
+      .addClass("past")
+      .removeClass("description");
+    }
+    if (i == currentHour) {
+      console.log(i);
+      $($div).siblings("textarea")
+      .addClass("present")
+      .removeClass("description");
+    }
+    else {
+    }
   };
+};
+  auditTask();
   
-  
 
-
-
-  //Check everything with a certain class to be applicable to be audited
+  //set audit function to run every 30 minutes
   setInterval(function () {
-    $(".card .list-group-item").each(function (el) 
-    {
-      auditTask(el);
-    });
-  }, 3600000);
+    auditTask();
+  }, 1800000);
 
+  console.log(setInterval);
 
 
 // value of text is changed
@@ -82,7 +63,7 @@ $("textarea").on("change", "input[type='text']", function() {
     var description = $(this)
       .val()
       .trim();
-  
+    console.log(textarea);
       
     // get the task's position in the list of other li elements
     var index = $(this)
@@ -93,13 +74,16 @@ $("textarea").on("change", "input[type='text']", function() {
     tasks[index].description = description;
     saveTasks();
   
-    // Pass task's <li> element into auditTask() to check new due date
-     auditTask($(this).closest(".description"));
+    // Rerun audit to check new due date
+     auditTask();
   });
 
-  
+  // get form values
+  var taskTime = $(".hour").val();
+  var taskDetails = $("textarea").val();
+
   //function to saveTasks to an array in localStorage.
-  function saveTasks(time, task) {
+  function saveTasks() {
       var oldTaskData = JSON.parse(localStorage.getItem("taskData"));
       if (!oldTaskData) {
           oldTaskData = {
@@ -107,8 +91,8 @@ $("textarea").on("change", "input[type='text']", function() {
               taskDescription: [],
           };
 
-          oldTaskData.timeOfDay.push(timeOfDay);
-          oldTaskData.taskDescription.push(taskDescription);
+          oldTaskData.timeOfDay.push(taskTime);
+          oldTaskData.taskDescription.push(taskDetails);
           localStorage.setItem("taskData", JSON.stringify(oldTaskData));
           console.log(oldTaskData);
       }
@@ -116,20 +100,16 @@ $("textarea").on("change", "input[type='text']", function() {
   }
 
   // save tasks in jQuery 
-    $("#task-form-modal .btn-save").click(function() {
-        // get form values
-        var taskText = $("#modalTaskDescription").val();
-        var taskDate = $("#modalDueDate").val();
+    $(".saveBtn").click(function() {
+        
          
-        // save in tasks array
-        tasks.toDo.push({
-            text: taskText,
-            date: taskDate
-        });
+        // // save in tasks array
+        // tasks.toDo.push({
+        //     time: taskTime,
+        //     details: taskDetails
+        // });
     
         saveTasks();
-        
+       
     });
 
-
-  //add event listener on save button to save to local storage when clicked
