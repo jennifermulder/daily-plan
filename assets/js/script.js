@@ -23,71 +23,53 @@ var now = moment().hours();
 console.log(now);
 
 //test color
-if (hour < now) {
-    $(".description").addClass("past");
-    $(".description").removeClass("description");
-    console.log("if statment working");
-}
+// if (hour < now) {
+//     $(".description").addClass("past");
+//     $(".description").removeClass("description");
+//     console.log("if statment working");
+// }
 
 
 for(let i = 0; i < 24; i++) {
   const $div = $("div#" + i);
   const currentHour = moment().format("H");
-
-  if(i < currentHour) {
-
-    $($div).siblings(".task-description")
+  console.log(currentHour);
+  
+  if (i > currentHour) {
+    $($div).siblings("textarea")
+    .addClass("future")
+    .removeClass("description");
+  }
+  if (i < currentHour) {
+    $($div).siblings("textarea")
     .addClass("past")
     .removeClass("description");
   }
-}
+  if (i == currentHour) {
+    console.log(i);
+    $($div).siblings("textarea")
+    .addClass("present")
+    .removeClass("description");
+  }
+  else {
+  }
+};
 
 
 //Use to audit current time against time in far left block
 var auditTask = function() {
 
-  var textBox = $("row").children([1]);
-  console.log(textBox);
   
-    
-  // remove any old classes from element
-  $("row2").children[1]().removeClass("description");
-
-  // apply new class if task is near/over due date
-  if (hour === now) {
-    $(taskEl).addClass("present");
-  }
-  if (moment().isAfter(hour)) {
-    $(taskEl).addClass("past");
-  }
-  else {
-    $(taskEl).addClass("future");
-  }
-
-  currentHour++;
-
   };
   
   
 
 
-// if the current time is during working hours
-if (now < 18 && now > 8) {
-  auditTask();
-}
-
-
-
-//figure out how to make "hour" loop through i
-
-
-
-
-
 
   //Check everything with a certain class to be applicable to be audited
   setInterval(function () {
-    $(".card .list-group-item").each(function (el) {
+    $(".card .list-group-item").each(function (el) 
+    {
       auditTask(el);
     });
   }, 3600000);
@@ -95,7 +77,7 @@ if (now < 18 && now > 8) {
 
 
 // value of text is changed
-$(".description").on("change", "input[type='text']", function() {
+$("textarea").on("change", "input[type='text']", function() {
     // get current text
     var description = $(this)
       .val()
