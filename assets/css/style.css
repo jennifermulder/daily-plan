@@ -21,10 +21,12 @@ textarea{
   border-bottom: 10px solid black;
 }
 
+/* for text box */
 .description{
   white-space: pre-wrap;
 }
 
+/* for whole item?? */
 .time-block{
   text-align: center;
   border-radius: 15px;
@@ -36,6 +38,7 @@ textarea{
   border-top: 1px solid white;;
 }
 
+/* for time AM/PM blocks */
 .hour {
   background-color: #ffffff;
   color: #000000;
@@ -57,6 +60,7 @@ textarea{
   color: white;
 }
 
+/* save button not on hover */
 .saveBtn {
   border-left: 1px solid black;
   border-top-right-radius: 15px;
@@ -65,7 +69,10 @@ textarea{
   color: white;
 }
 
+
+/* change the color of the icon on hover */
 .saveBtn i:hover {
   font-size: 20px;
   transition: all .3s ease-in-out;
+  color: black
 }
