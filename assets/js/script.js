@@ -8,7 +8,7 @@ var auditTask = function () {
   for (let i = 0; i < 24; i++) {
     const $div = $("div#" + i);
     const currentHour = moment().format("H");
-    console.log(currentHour);
+    // console.log(currentHour);
 
     if (i > currentHour) {
       $($div).siblings("textarea")
@@ -21,7 +21,7 @@ var auditTask = function () {
         .removeClass("description");
     }
     if (i == currentHour) {
-      console.log(i);
+      // console.log(i);
       $($div).siblings("textarea")
         .addClass("present")
         .removeClass("description");
@@ -77,7 +77,7 @@ function loadTasks() {
   for (var i = 0; i < tasks.length; i++) {
     // grab the task at each index
     var task = tasks[i];
-    console.log(task);
+    // console.log(task);
 
 
     // find the textarea by ID using the task time / id
