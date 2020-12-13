@@ -18,7 +18,7 @@ This daily planner alerts the user to whether events throughout the work day are
 * Third Party APIs
 
 ## Website
-https://jennifer.mulder.github.io/daily-plan/
+https://jennifermulder.github.io/daily-plan/
 
 ## Project Status
 Scheduler is compliant with defined acceptance criteria
